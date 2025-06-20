@@ -28,7 +28,10 @@ export class UserGateway
   @WebSocketServer() server: Server;
   private readonly logger: Logger = new Logger();
 
-  private readonly connectedClientList: Map<string, Socket> = new Map<string, Socket>();
+  private readonly connectedClientList: Map<string, Socket> = new Map<
+    string,
+    Socket
+  >();
 
   constructor(
     private readonly userService: UserService,
@@ -86,7 +89,7 @@ export class UserGateway
     const newUser = JSON.parse(payload);
     const userCreated = await this.userService.signUp(newUser);
     const response: IResponse = { success: true, data: userCreated };
-    this.server.to(client.id).emit('signUp_res', response);
+    this.server.emit('signUp_res', response);
   }
 
   @SubscribeMessage('signIn')
